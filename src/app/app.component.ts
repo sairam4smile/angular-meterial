@@ -9,6 +9,7 @@ import { MatTableModule } from '@angular/material/table'; // Import MatTableModu
 import { MatPaginatorModule } from '@angular/material/paginator'; // Import MatPaginatorModule
 import { MatInputModule } from '@angular/material/input'; // Import MatInputModule
 import { MatSortModule } from '@angular/material/sort'; // Import MatSortModule
+import { HttpClientModule } from '@angular/common/http';
 
 
 @Component({
@@ -18,7 +19,8 @@ import { MatSortModule } from '@angular/material/sort'; // Import MatSortModule
     MatTableModule,
     MatPaginatorModule,
     MatInputModule,
-    MatSortModule
+    MatSortModule,
+    HttpClientModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

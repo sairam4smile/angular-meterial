@@ -10,6 +10,8 @@ import { MatInputModule } from '@angular/material/input'; // Import MatInputModu
 import { MatSortModule } from '@angular/material/sort'; // Import MatSortModule
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
+import { ApidataService } from '../apidata.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 
 
@@ -18,6 +20,7 @@ import { BrowserModule } from '@angular/platform-browser';
   standalone: true,
   imports: [CommonModule,  MatTableModule,
     // BrowserAnimationsModule,
+    HttpClientModule,
     MatPaginatorModule,
     MatInputModule,
     MatSortModule],
@@ -67,12 +70,19 @@ export class CsvUploadComponent {
 
 
 
+  constructor(private apiDataService: ApidataService) {}
 
 
 
- csvData: any[] = [];
+  csvData: any[] = [];
   csvHeaders: string[] = [];
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
+
+
+  apiData: any[] = [];
+  apiDataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
+  displayedColumns: string[] = [];
+
 
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 
@@ -115,7 +125,6 @@ export class CsvUploadComponent {
     return this.csvHeaders.map(header => row[header]);
   }
 
-
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -123,5 +132,16 @@ export class CsvUploadComponent {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  loadApiData(): void {
+    this.apiDataService.getApiData().subscribe(data => {
+      this.apiData = data;
+      this.apiDataSource = new MatTableDataSource(this.apiData);
+      this.apiDataSource.paginator = this.paginator;
+      this.displayedColumns = Object.keys(data[0]);
+
+      // this.apiDataSource.sort = this.sort;
+    });
   }
 }
