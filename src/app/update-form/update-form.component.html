@@ -1,0 +1,10 @@
+<!-- update-form.component.html -->
+<form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+  <!-- Iterate over the form controls and generate input fields dynamically -->
+  <div *ngFor="let controlName of formControlNames()">
+    <label [for]="controlName">{{ controlName | titlecase }}:</label>
+    <input [type]="getInputType(controlName)" [formControlName]="controlName" />
+  </div>
+
+  <button type="submit">Submit</button>
+</form>
